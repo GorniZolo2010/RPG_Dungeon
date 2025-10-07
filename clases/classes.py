@@ -8,7 +8,7 @@ class hero:
         self.xp = info_list[4]
         self.gold = info_list[5]
         self.inventory = []
-        self.status = []
+        self.status = 0
     def info():
         hp = 100
         atk_min = 10    

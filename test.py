@@ -14,6 +14,7 @@ while True:
     monster_obj = classes.monster(info_monster,monster_in_batle,stage)
     stage += 1
     fight.battle(hero_obj,monster_obj)
+    print(f"hero hp: {hero_obj.status}")
     if hero_obj.hp <= 0:
         print("Game over")
         break
@@ -23,5 +24,5 @@ while True:
         hero_obj.xp = 0
     if stage % 1 == 0:
         shop.shop(hero_obj)
-        for i in len(hero_obj.inventory):
+        for i in range(len(hero_obj.inventory)):
             print(f"inventory: {hero_obj.inventory[i]} X{hero_obj.inventory.count(hero_obj.inventory[i])}")

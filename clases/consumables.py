@@ -1,17 +1,20 @@
 class consumables:
     def __init__(self,input_info):
-        self.name = input_info
-        self.time = consumables_dict[input_info]["time"]
+        self.name = str(input_info)
+        self.heal = consumables_dict["healing consumables"][self.name]["hp"]
+    def give_status(self,hero_obj):
+        hero_obj.status = consumables_dict["healing consumables"][self.name]["time"]
+        return hero_obj
     def const_heal(self,hero_obj):
-        hero_obj.hp += consumables_dict[self.name]["hp"]
+        hero_obj.hp += consumables_dict["healing consumables"][self.name]["hp"]
         hero_obj.inventory.remove(self.name)
         return hero_obj
     def delayed_heal(self,hero_obj):
-        if self.time > 0:
-            hero_obj.hp += consumables_dict[self.name]["hp"]
-            self.time -= 1
+        if hero_obj.status > 0:
+            hero_obj.hp += consumables_dict["healing consumables"][self.name]["hp"]
+            hero_obj.status -= 1
         else:
-            hero_obj.inventory.remove(self.name)
+            hero_obj.status.remove(self.name)
         return hero_obj
 consumables_dict = {
     "healing consumables":{

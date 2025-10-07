@@ -12,10 +12,10 @@ def Turn_based_combat(hero_obj,monster_obj):
             print(f"Monster ATK has decreasd by {info_1}/{info_2}")
             monster_obj.atk_max /= 4
             monster_obj.atk_min /= 4
-            return hero_obj,monster_obj
+            return hero_obj,monster_obj,None
         elif input_info == "Atack":
             monster_obj.hp_monster = classes.monster.monster_gets_hurt(monster_obj,hero_obj)
-            return hero_obj,monster_obj
+            return hero_obj,monster_obj,None
         elif input_info == "Inventory":
             if hero_obj.inventory == []:
                 print("You don`t have any item")
@@ -29,23 +29,32 @@ def Turn_based_combat(hero_obj,monster_obj):
                     print("You can`t use that item")
                 else:
                     status_obj = consumables.consumables(input_info)
-                    if status_obj.time == 1:
+                    consumables.consumables.give_status(status_obj,hero_obj)
+                    if hero_obj.status == 1:
                         hero_obj = status_obj.const_heal(hero_obj)
                         print(f"You healed {status_obj.heal} hp")
                     else:
                         hero_obj = status_obj.delayed_heal(hero_obj)
-                        print(f"You healed {status_obj.heal} hp and it will heal you for {status_obj.time} turns more")
-                return hero_obj,monster_obj
+                        print(f"You healed {status_obj.heal} hp, and it will heal you for {hero_obj.status} turns more")
+                return hero_obj,monster_obj,status_obj
             else:
                 print("You don't have that item")
 def battle(hero_obj,monster_obj):
     monster_in_batle = monster_obj.name
     turn = 0
+    status = False
     while True:
         if turn == 0:
             print(f"{monster_in_batle} attacking you!")
         if monster_obj.hp_monster > 0:
-            Turn_based_combat(hero_obj,monster_obj)
+            if status != False:
+                info = Turn_based_combat(hero_obj,monster_obj)
+                hero_obj = info[0]
+                monster_obj = info[1]
+            else:
+                hero_obj,monster_obj,status_obj = Turn_based_combat(hero_obj,monster_obj)
+                if hero_obj.status > 1:
+                    status = True
             if monster_obj.hp_monster >= 0:
                 print(f"{monster_in_batle} hp now is {monster_obj.hp_monster}")
             else:
@@ -53,6 +62,9 @@ def battle(hero_obj,monster_obj):
             if monster_obj.hp_monster > 0:
                 hero_obj.hp = classes.monster.monster_atacks(monster_obj,hero_obj.hp)
                 if hero_obj.hp >= 0:
+                    if hero_obj.status > 0:
+                        hero_obj = consumables.consumables.delayed_heal(status_obj,hero_obj)
+                        print(f"You healed {status_obj.heal} hp, and it will heal you for {hero_obj.status} turns more")
                     print(f"Hero hp now is {hero_obj.hp}")
                 else:
                     print("Hero hp now is 0")
