@@ -24,8 +24,8 @@ def shop(hero_obj):
                         hero_obj.inventory.append(shop_list[number])
         else:
             print("Try again pls")
-shop_list = ["Mushroom","Healing potion"]
+shop_list = ["Mushrooms","Healing potion"]
 shop_asortiment = {
-    "Mushroom": 50,
+    "Mushrooms": 50,
     "Healing potion": 100
 }

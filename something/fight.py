@@ -20,8 +20,10 @@ def Turn_based_combat(hero_obj,monster_obj):
             if hero_obj.inventory == []:
                 print("You don`t have any item")
             else:
-                for i in range(len(hero_obj.inventory)):
-                    print(f"{hero_obj.inventory[i]} X {hero_obj.inventory.count(hero_obj.inventory[i])}")
+                if hero_obj.inventory.count("Healing potion") > 0:
+                    print(f"Healing potion X{hero_obj.inventory.count("Healing potion")}")
+                if hero_obj.inventory.count("Mushrooms") > 0:
+                     print(f"Mushrooms X{hero_obj.inventory.count("Mushrooms")}")
                 input_info = input("Write what you want to use: ")
                 input_info = input_info.lower().capitalize()
             if hero_obj.inventory.count(input_info) != 0:
@@ -81,7 +83,7 @@ def battle(hero_obj,monster_obj):
             break
         turn += 1
     return hero_obj
-shop_list = ["Mushroom"]
+shop_list = ["Mushrooms"]
 shop_asortiment = {
-    "Mushroom": {"cost":50,"hp_heal":25}
+    "Mushrooms": {"cost":50,"hp_heal":25}
 }

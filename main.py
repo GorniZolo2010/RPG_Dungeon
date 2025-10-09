@@ -20,5 +20,7 @@ while True:
         hero_obj.xp = 0
     if stage % 10 == 0:
         shop.shop(hero_obj)
-        for i in len(hero_obj.inventory):
-            print(f"{hero_obj.inventory[i]} X {hero_obj.inventory.count(hero_obj.inventory[i])}")
+        if hero_obj.inventory.count("Healing potion") > 0:
+            print(f"Healing potion X{hero_obj.inventory.count["Healing potion"]}")
+        if hero_obj.inventory.count("Mushrooms") > 0:
+            print(f"Mushrooms X{hero_obj.inventory.count["Mushrooms"]}")
