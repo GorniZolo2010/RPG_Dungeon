@@ -3,8 +3,8 @@ import clases.classes as classes
 import something.shop as shop
 import something.fight as fight
 stage = 0
-hero_info = classes.hero.info()
-hero_obj = classes.hero(hero_info)
+hero_obj = classes.hero()
+hero_obj.hp = 1000
 while True:
     hero_obj.inventory.append("Healing potion")
     hero_obj.inventory.append("Mushrooms")
@@ -16,7 +16,7 @@ while True:
     fight.battle(hero_obj,monster_obj)
     print(f"hero hp: {hero_obj.status}")
     if hero_obj.hp <= 0:
-        print("Game over")
+        print("Game over") 
         break
     if hero_obj.xp > 100.00 + (50 * hero_obj.lvl):
         classes.hero.lvl_up(hero_obj)

@@ -3,8 +3,7 @@ import clases.classes as classes
 import something.shop as shop
 import something.fight as fight
 stage = 0
-hero_info = classes.hero.info()
-hero_obj = classes.hero(hero_info)
+hero_obj = classes.hero()
 while True:
     monster_in_batle = random.choice(classes.monsters_list)
     info_monster = classes.monster.info(monster_in_batle)

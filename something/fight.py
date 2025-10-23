@@ -2,7 +2,18 @@ import random
 import clases.classes as classes
 import something.shop as shop
 import clases.consumables as consumables
-def Turn_based_combat(hero_obj,monster_obj):
+import clases.weapons as weapons
+weapon_factory = {
+    "Sword": weapons.weapon.sword,
+    "Mace": weapons.weapon.mace,
+    "Dagger": weapons.weapon.dagger,
+    "Fists": weapons.weapon.fists
+}
+def get_weapon_obj(hero_obj):
+    weapon_name = getattr(hero_obj, "weapon", "Fists")
+    info = weapon_factory.get(weapon_name, weapons.weapon.fists)()
+    return weapons.weapon(info)
+def Turn_based_combat(hero_obj,monster_obj,weapon_obj):
     while True:
         input_info = input("Defense Atack Inventory: ")
         input_info = input_info.lower().capitalize()
@@ -14,7 +25,7 @@ def Turn_based_combat(hero_obj,monster_obj):
             monster_obj.atk_min /= 4
             return hero_obj,monster_obj,None
         elif input_info == "Atack":
-            monster_obj.hp_monster = classes.monster.monster_gets_hurt(monster_obj,hero_obj)
+            monster_obj.hp_monster = classes.monster.monster_gets_hurt(monster_obj,hero_obj,weapon_obj)
             return hero_obj,monster_obj,None
         elif input_info == "Inventory":
             if hero_obj.inventory == []:
@@ -42,6 +53,7 @@ def Turn_based_combat(hero_obj,monster_obj):
             else:
                 print("You don't have that item")
 def battle(hero_obj,monster_obj):
+    weapon_obj = get_weapon_obj(hero_obj)
     monster_in_batle = monster_obj.name
     turn = 0
     status = False
@@ -50,11 +62,11 @@ def battle(hero_obj,monster_obj):
             print(f"{monster_in_batle} attacking you!")
         if monster_obj.hp_monster > 0:
             if status != False:
-                info = Turn_based_combat(hero_obj,monster_obj)
+                info = Turn_based_combat(hero_obj,monster_obj,weapon_obj)
                 hero_obj = info[0]
                 monster_obj = info[1]
             else:
-                hero_obj,monster_obj,status_obj = Turn_based_combat(hero_obj,monster_obj)
+                hero_obj,monster_obj,status_obj = Turn_based_combat(hero_obj,monster_obj,weapon_obj)
                 if hero_obj.status > 1:
                     status = True
             if monster_obj.hp_monster >= 0:
